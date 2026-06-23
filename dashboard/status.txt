@@ -1,0 +1,10 @@
+CPU: 1.2%
+RAM: 2.9%
+Disk: 1%
+Network: Healthy
+Nginx: Running
+
+Alerts:
+Server: Pakistan-Server
+Time: 2026-06-23 21:50:02
+INFO: No Active Alerts
