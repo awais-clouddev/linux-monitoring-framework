@@ -17,6 +17,27 @@
 - 🚨 Alert Monitoring
 
 ---
+## 🏗️ Architecture Diagram
+
+> **Architecture diagram will be added here after it is designed in Draw.io.**
+
+---
+
+## 🎯 Business Problem
+
+Managing Linux servers manually is time-consuming and error-prone. This project automates system health monitoring, service validation, report generation, and dashboard updates to reduce operational effort and improve visibility across Linux environments.
+
+---
+
+## 🎯 Project Goals
+
+- Automate Linux system monitoring
+- Detect service failures automatically
+- Generate health reports
+- Centralize monitoring logs
+- Display server health through a web dashboard
+
+---
 
 
 
