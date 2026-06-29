@@ -1,83 +1,22 @@
-# Multi-Region Linux Monitoring & Automation Framework
 
-## Project Overview
+# 🚀 Enterprise Linux Monitoring & Automation Framework
 
-This project simulates a small Network Operations Center (NOC) responsible for monitoring Linux servers, detecting issues, generating alerts, automating repetitive tasks, and visualizing system health through a live dashboard.
-
-The framework was built using Ubuntu Linux, Bash scripting, Cron, and Nginx.
+> A production-inspired Linux monitoring and automation framework built with **Ubuntu**, **Bash**, **Cron**, and **Nginx** to automate system health checks, centralized logging, report generation, and a web-based monitoring dashboard.
 
 ---
 
-## Business Problem
+## 📌 Project Highlights
 
-Companies manage multiple servers and need a centralized way to:
-
-- Monitor server health
-- Detect failures quickly
-- Automate repetitive tasks
-- Generate reports
-- Display system status in real time
-
-This project solves these problems.
-
----
-
-## Features
-
-✅ CPU Monitoring
-
-✅ RAM Monitoring
-
-✅ Disk Monitoring
-
-✅ Network Connectivity Monitoring
-
-✅ Nginx Service Monitoring
-
-✅ Automated Health Checks
-
-✅ Centralized Logging
-
-✅ Live Dashboard
-
-✅ Alert System
-
-✅ Report Generation
+- 🐧 Ubuntu Linux
+- 📜 Bash Scripting
+- ⏰ Cron Automation
+- 🌐 Nginx Web Server
+- 📊 HTML Monitoring Dashboard
+- 📄 Automated Report Generation
+- 📝 Centralized Logging
+- 🚨 Alert Monitoring
 
 ---
-
-## Project Architecture
-
-```text
-Ubuntu Linux
-
-↓
-
-Monitoring Scripts
-
-↓
-
-System Logs
-
-↓
-
-Cron Automation
-
-↓
-
-Alert System
-
-↓
-
-Dashboard Data
-
-↓
-
-Nginx Dashboard
-
-↓
-
-Browser
 
 
 
