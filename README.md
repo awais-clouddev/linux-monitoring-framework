@@ -17,11 +17,20 @@
 - 🚨 Alert Monitoring
 
 ---
-## 🏗️ Architecture Diagram
 
-> **Architecture diagram will be added here after it is designed in Draw.io.**
+## 🏗️ Architecturere  Diagram
+
+**Architecture diagram will be added here after it is designed in Draw.io.**
+
+
+## 📷 Dashboard Preview
+
+![Linux Monitoring Dashboard](screenshots/dashboard/01-dashboard.png)
+
+**Figure 1:** Live Linux Monitoring Dashboard displaying CPU, RAM, Disk, Network, Nginx status, alerts, and server health.
 
 ---
+
 
 ## 🎯 Business Problem
 
