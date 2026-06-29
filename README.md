@@ -39,5 +39,38 @@ Managing Linux servers manually is time-consuming and error-prone. This project 
 
 ---
 
+## 🛠️ Technology Stack
+
+| Category | Technology |
+|----------|------------|
+| Operating System | Ubuntu Linux |
+| Scripting | Bash |
+| Web Server | Nginx |
+| Scheduler | Cron |
+| Dashboard | HTML |
+| Version Control | Git |
+| Repository Hosting | GitHub |
+
+---
+
+## 📂 Project Structure
+
+```text
+linux-monitoring-framework/
+│
+├── architecture/
+├── dashboard/
+├── docs/
+├── reports/
+├── screenshots/
+├── scripts/
+├── config/
+├── logs/
+├── LICENSE
+├── .gitignore
+└── README.md
+```
+
+---
 
 
