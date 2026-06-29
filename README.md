@@ -83,4 +83,17 @@ linux-monitoring-framework/
 
 ---
 
+## ✨ Features
+
+- ✅ CPU Monitoring
+- ✅ RAM Monitoring
+- ✅ Disk Usage Monitoring
+- ✅ Network Connectivity Checks
+- ✅ Nginx Service Monitoring
+- ✅ Automated Health Reports
+- ✅ Centralized System Logs
+- ✅ HTML Dashboard
+- ✅ Cron-based Automation
+- ✅ Alert Detection
+- ✅ Bash Automation Scripts
 
