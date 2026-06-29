@@ -127,3 +127,24 @@ bash scripts/run_all_checks.sh
 
 ---
 
+## ▶️ Usage
+
+Run the monitoring framework:
+
+```bash
+bash scripts/run_all_checks.sh
+```
+
+The framework will:
+
+- Monitor CPU usage
+- Monitor RAM usage
+- Monitor Disk usage
+- Check network connectivity
+- Verify Nginx service status
+- Generate health reports
+- Update the monitoring dashboard
+- Store logs for future analysis
+
+---
+
