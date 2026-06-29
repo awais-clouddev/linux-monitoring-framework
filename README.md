@@ -97,3 +97,33 @@ linux-monitoring-framework/
 - ✅ Alert Detection
 - ✅ Bash Automation Scripts
 
+---
+
+## ⚙️ Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/awais-clouddev/linux-monitoring-framework.git
+```
+
+### 2. Move into the project directory
+
+```bash
+cd linux-monitoring-framework
+```
+
+### 3. Make scripts executable
+
+```bash
+chmod +x scripts/*.sh
+```
+
+### 4. Run all monitoring checks
+
+```bash
+bash scripts/run_all_checks.sh
+```
+
+---
+
