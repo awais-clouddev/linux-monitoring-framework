@@ -18,7 +18,7 @@
 
 ---
 
-## 🏗️ Architecturere  Diagram
+## 🏗️ Architecture  Diagram
 
 **Architecture diagram will be added here after it is designed in Draw.io.**
 
