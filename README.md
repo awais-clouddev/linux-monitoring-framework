@@ -148,3 +148,35 @@ The framework will:
 
 ---
 
+## 🔄 Automation Workflow
+
+```text
+System Administrator
+        │
+        ▼
+Run Monitoring Script
+        │
+        ▼
+Collect System Metrics
+        │
+        ├── CPU
+        ├── RAM
+        ├── Disk
+        ├── Network
+        └── Nginx Service
+        │
+        ▼
+Generate Logs
+        │
+        ▼
+Generate Reports
+        │
+        ▼
+Update HTML Dashboard
+        │
+        ▼
+View Dashboard in Browser
+```
+
+---
+
