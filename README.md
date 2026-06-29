@@ -37,19 +37,29 @@ Managing Linux servers manually is time-consuming and error-prone. This project 
 - Centralize monitoring logs
 - Display server health through a web dashboard
 
----
 
-## 🛠️ Technology Stack
+---## 🛠️ Technology Stack
 
-| Category | Technology |
-|----------|------------|
-| Operating System | Ubuntu Linux |
-| Scripting | Bash |
-| Web Server | Nginx |
-| Scheduler | Cron |
-| Dashboard | HTML |
-| Version Control | Git |
-| Repository Hosting | GitHub |
+<p align="left">
+
+<img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white" />
+
+<img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" />
+
+<img src="https://img.shields.io/badge/Bash-121011?style=for-the-badge&logo=gnu-bash&logoColor=white" />
+
+<img src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white" />
+
+<img src="https://img.shields.io/badge/Cron-Automation-blue?style=for-the-badge" />
+
+<img src="https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
+
+<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" />
+
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
+
+</p>
+
 
 ---
 
