@@ -52,6 +52,14 @@
 
 ---
 
+## 📷 Project Structure
+
+![Project Structure](screenshots/terminal/05-project-structure.png)
+
+**Figure 5:** Organized project structure showing separation of scripts, dashboard, documentation, reports, architecture, and screenshots following engineering best practices.
+
+---
+
 
 
 ## 🎯 Business Problem
