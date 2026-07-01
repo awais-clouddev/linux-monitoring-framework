@@ -30,6 +30,13 @@
 **Figure 1:** Live Linux Monitoring Dashboard displaying CPU, RAM, Disk, Network, Nginx status, alerts, and server health.
 
 ---
+## 📷 Nginx Service Status
+
+![Nginx Status](screenshots/terminal/02-nginx-status.png)
+
+**Figure 2:** Nginx service running successfully on Ubuntu Linux. The monitoring framework continuously verifies that the Nginx web server is active and available.
+
+---
 
 
 ## 🎯 Business Problem
