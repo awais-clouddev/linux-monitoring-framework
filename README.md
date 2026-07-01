@@ -37,6 +37,13 @@
 **Figure 2:** Nginx service running successfully on Ubuntu Linux. The monitoring framework continuously verifies that the Nginx web server is active and available.
 
 ---
+## 📷 Health Check Execution
+
+![Health Check](screenshots/terminal/03-health-check.png)
+
+**Figure 3:** The monitoring framework executes all health check scripts in a single run, validating CPU, RAM, Disk, Network, and Nginx service status before updating logs, reports, and the monitoring dashboard.
+
+---
 
 
 ## 🎯 Business Problem
