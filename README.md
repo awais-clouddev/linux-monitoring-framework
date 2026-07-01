@@ -44,6 +44,14 @@
 **Figure 3:** The monitoring framework executes all health check scripts in a single run, validating CPU, RAM, Disk, Network, and Nginx service status before updating logs, reports, and the monitoring dashboard.
 
 ---
+## 📷 Daily Health Report
+
+![Daily Report](screenshots/reports/04-report.png)
+
+**Figure 4:** The monitoring framework automatically generates a daily system report containing CPU, RAM, Disk, Network, Nginx status, timestamps, and active alerts for operational visibility and troubleshooting.
+
+---
+
 
 
 ## 🎯 Business Problem
