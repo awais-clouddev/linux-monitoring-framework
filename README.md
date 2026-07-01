@@ -20,7 +20,14 @@
 
 ## 🏗️ Architecture  Diagram
 
-**Architecture diagram will be added here after it is designed in Draw.io.**
+## 🏗️ Architecture Diagram
+
+![Architecture Diagram](architecture/architecture.png)
+
+**Figure 0:** Enterprise Linux Monitoring & Automation Framework architecture showing the complete workflow from system administration and monitoring scripts to logging, reporting, dashboard generation, Nginx, and browser access.
+
+---
+
 
 
 ## 📷 Dashboard Preview
