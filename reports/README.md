@@ -1,10 +1,10 @@
 # Reports Documentation
 
-## Daily Health Report
+## Overview
 
-![Daily Report](../screenshots/reports/04-report.png)
+The monitoring framework automatically generates a daily health report after each execution.
 
-The generated report includes:
+## Report Contents
 
 - Generation Time
 - CPU Usage
@@ -14,5 +14,7 @@ The generated report includes:
 - Nginx Status
 - Active Alerts
 
-The report provides administrators with a quick overview of system health and operational status.
+The generated report helps administrators quickly verify overall system health.
+
+For a sample report, see the **Daily Health Report** section in the main README.
 

@@ -1,10 +1,10 @@
 # Dashboard Documentation
 
-## Dashboard Preview
+## Overview
 
-![Dashboard](../screenshots/dashboard/01-dashboard.png)
+The Linux Monitoring Dashboard provides a real-time overview of server health.
 
-The monitoring dashboard displays:
+## Dashboard Metrics
 
 - CPU Usage
 - RAM Usage
@@ -15,5 +15,7 @@ The monitoring dashboard displays:
 - Server Information
 - Last Updated Timestamp
 
-The dashboard is automatically refreshed after every monitoring cycle.
+The dashboard is automatically refreshed whenever the monitoring framework executes.
+
+For a live dashboard preview, see the **Dashboard Preview** section in the main README.
 
