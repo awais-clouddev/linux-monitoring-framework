@@ -295,19 +295,19 @@ These improvements enhanced reliability, maintainability, and scalability while 
 ---
 
 ## 📚 Lessons Learned
-
-This project strengthened practical skills in:
+This project strengthened my practical experience in:
 
 - Linux system administration
-- Bash scripting
-- Process automation
-- Nginx configuration
-- Git and GitHub workflows
+- Bash scripting and automation
+- Nginx web server configuration
+- System health monitoring
+- Git and GitHub version control
 - Technical documentation
-- Troubleshooting and debugging
+- Troubleshooting Linux services
 - Building production-style project structures
 
-The project also reinforced the importance of automation, maintainability, and clear documentation in DevOps engineering.
+This project reinforced the importance of automation, maintainability, documentation, and modular design in modern DevOps engineering.
+
 
 ---
 
