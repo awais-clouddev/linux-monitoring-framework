@@ -24,5 +24,3 @@ The Enterprise Linux Monitoring & Automation Framework is designed to automate L
 - Health Reports
 - Git Version Control
 
-See `architecture.png` for the complete system architecture.
-
