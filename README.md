@@ -63,7 +63,17 @@
 
 **Figure 5:** Organized project structure showing separation of scripts, dashboard, documentation, reports, architecture, and screenshots following engineering best practices.
 
+## 📚 Documentation
+
+- 📐 [Architecture Overview](architecture/architecture.md)
+- ⚙️ [Setup Guide](docs/setup.md)
+- 🛠️ [Troubleshooting Guide](docs/troubleshooting.md)
+- 📊 [Dashboard Documentation](dashboard/README.md)
+- 📄 [Reports Documentation](reports/README.md)
+- 🖥️ [Scripts Documentation](scripts/README.md)
+
 ---
+
 
 
 
