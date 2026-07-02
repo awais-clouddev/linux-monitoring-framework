@@ -1,19 +1,19 @@
-# Dashboard
+# Dashboard Documentation
 
-## Overview
+## Dashboard Preview
 
-The dashboard provides a real-time view of the monitoring framework.
+![Dashboard](../screenshots/dashboard/01-dashboard.png)
 
-## Displays
+The monitoring dashboard displays:
 
 - CPU Usage
 - RAM Usage
 - Disk Usage
 - Network Status
-- Nginx Status
-- Alerts
+- Nginx Service Status
+- Active Alerts
 - Server Information
-- Timestamp
+- Last Updated Timestamp
 
-The dashboard is automatically updated whenever the monitoring framework runs.
+The dashboard is automatically refreshed after every monitoring cycle.
 
