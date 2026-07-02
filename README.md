@@ -21,14 +21,11 @@
 ## 🏗️ Architecture  Diagram
 
 
-
-
 ![Architecture Diagram](architecture/architecture.png)
 
 **Figure 0:** Enterprise Linux Monitoring & Automation Framework architecture showing the complete workflow from system administration and monitoring scripts to logging, reporting, dashboard generation, Nginx, and browser access.
 
 ---
-
 
 
 ## 📷 Dashboard Preview
@@ -148,82 +145,188 @@ linux-monitoring-framework/
 
 ## ⚙️ Installation
 
-### 1. Clone the repository
+### Prerequisites
+
+- Ubuntu 24.04+ (or WSL Ubuntu)
+- Git
+- Bash
+- Nginx
+
+### Clone Repository
 
 ```bash
 git clone https://github.com/awais-clouddev/linux-monitoring-framework.git
-```
-
-### 2. Move into the project directory
-
-```bash
 cd linux-monitoring-framework
 ```
 
-### 3. Make scripts executable
+### Make Scripts Executable
 
 ```bash
 chmod +x scripts/*.sh
 ```
 
-### 4. Run all monitoring checks
+### Run the Monitoring Framework
 
 ```bash
 bash scripts/run_all_checks.sh
 ```
 
----
+
 
 ## ▶️ Usage
 
-Run the monitoring framework:
+### Run All Monitoring Checks
 
 ```bash
 bash scripts/run_all_checks.sh
 ```
 
-The framework will:
+### Generate Daily Health Report
 
-- Monitor CPU usage
-- Monitor RAM usage
-- Monitor Disk usage
-- Check network connectivity
-- Verify Nginx service status
-- Generate health reports
-- Update the monitoring dashboard
-- Store logs for future analysis
+```bash
+bash scripts/generate_report.sh
+```
+
+### Open the Dashboard
+
+```bash
+cd dashboard
+python3 -m http.server 8080
+```
+
+Open your browser:
+
+```text
+http://localhost:8080
+```
+
+### Monitor Nginx Service
+
+```bash
+systemctl status nginx
+```
 
 ---
 
 ## 🔄 Automation Workflow
 
-```text
-System Administrator
-        │
-        ▼
-Run Monitoring Script
-        │
-        ▼
-Collect System Metrics
-        │
-        ├── CPU
-        ├── RAM
-        ├── Disk
-        ├── Network
-        └── Nginx Service
-        │
-        ▼
-Generate Logs
-        │
-        ▼
-Generate Reports
-        │
-        ▼
-Update HTML Dashboard
-        │
-        ▼
-View Dashboard in Browser
-```
+The monitoring framework follows this automated workflow:
+
+1. System administrator executes the monitoring framework.
+2. Bash scripts collect CPU, RAM, Disk, Network, and Nginx metrics.
+3. System metrics are validated and analyzed.
+4. Monitoring logs are generated and stored.
+5. Daily health reports are created automatically.
+6. Dashboard data is updated.
+7. Nginx serves the latest dashboard.
+8. Users access the monitoring dashboard through a web browser.
+
+The complete workflow is illustrated in the Architecture Diagram above.
+
+## 🖥️ Live Dashboard
+
+The monitoring dashboard provides a real-time overview of server health through a lightweight HTML interface served by Nginx.
+
+It displays:
+
+- CPU utilization
+- RAM usage
+- Disk utilization
+- Network connectivity
+- Nginx service status
+- Current alerts
+- Server information
+- Last monitoring timestamp
+
+The dashboard is automatically refreshed whenever the monitoring framework executes, providing an up-to-date view of the system.
 
 ---
+
+## 🚨 Alert System
+
+The monitoring framework automatically detects abnormal system conditions and records alerts for administrators.
+
+Current alert checks include:
+
+- Network connectivity failures
+- Nginx service availability
+- High resource utilization (future enhancement)
+
+Alerts are displayed on the dashboard and included in the generated health report for quick troubleshooting.
+
+---
+## 🌿 Git Version Control
+
+This project follows a professional Git workflow.
+
+Every major milestone—including monitoring scripts, dashboard improvements, documentation, architecture diagrams, and screenshots—is tracked through meaningful Git commits.
+
+The complete development history is available in this repository, providing full traceability of the project's evolution.
+
+---
+
+## 🛠️ Challenges & Solutions
+
+During development, several practical issues were encountered and resolved:
+
+- Resolved Git remote and merge conflicts.
+- Fixed Windows `.png.png` filename duplication.
+- Corrected file permission issues for Bash scripts.
+- Solved dashboard synchronization with Nginx.
+- Improved project structure and documentation.
+- Standardized Git commits and repository organization.
+
+These challenges provided valuable hands-on troubleshooting experience similar to real engineering environments.
+
+---
+
+## 📚 Lessons Learned
+
+This project strengthened practical skills in:
+
+- Linux system administration
+- Bash scripting
+- Process automation
+- Nginx configuration
+- Git and GitHub workflows
+- Technical documentation
+- Troubleshooting and debugging
+- Building production-style project structures
+
+The project also reinforced the importance of automation, maintainability, and clear documentation in DevOps engineering.
+
+---
+
+## 🚀 Future Improvements
+
+Planned enhancements for future versions include:
+
+- Multi-server monitoring
+- Email and Slack alert notifications
+- Docker container monitoring
+- AWS cloud deployment
+- Grafana and Prometheus integration
+- CI/CD pipeline automation
+- Kubernetes deployment
+- Historical metrics visualization
+
+These improvements will gradually transform the project into a production-ready monitoring platform.
+
+---
+
+## 👨‍💻 Author
+
+**Muhammad Awais**
+
+Cloud & DevOps Engineer Portfolio
+
+- GitHub: https://github.com/awais-clouddev
+- Project: Enterprise Linux Monitoring & Automation Framework
+
+---
+
+⭐ If you found this project useful, consider giving it a star.
+
+
+
 
