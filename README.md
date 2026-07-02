@@ -92,7 +92,11 @@ Managing Linux servers manually is time-consuming and error-prone. This project 
 - Display server health through a web dashboard
 
 
----## 🛠️ Technology Stack
+---
+
+
+
+## 🛠️ Technology Stack
 
 <p align="left">
 
@@ -277,16 +281,16 @@ The complete development history is available in this repository, providing full
 
 ## 🛠️ Challenges & Solutions
 
-During development, several practical issues were encountered and resolved:
+During development, several engineering challenges were successfully addressed:
 
-- Resolved Git remote and merge conflicts.
-- Fixed Windows `.png.png` filename duplication.
-- Corrected file permission issues for Bash scripts.
-- Solved dashboard synchronization with Nginx.
-- Improved project structure and documentation.
-- Standardized Git commits and repository organization.
+- Designed a modular Bash scripting architecture for maintainability.
+- Configured Nginx to serve a live HTML monitoring dashboard.
+- Managed Linux file permissions for secure script execution.
+- Automated health report generation and dashboard updates.
+- Organized the project into a production-style directory structure.
 
-These challenges provided valuable hands-on troubleshooting experience similar to real engineering environments.
+These improvements enhanced reliability, maintainability, and scalability while providing practical DevOps engineering experience.
+
 
 ---
 
