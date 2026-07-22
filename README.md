@@ -51,9 +51,12 @@
 ---
 ## 📷 Daily Health Report
 
+
+
 ![Daily Report](screenshots/reports/04-report.png)
 
-**Figure 4:** The monitoring framework automatically generates a daily system report containing CPU, RAM, Disk, Network, Nginx status, timestamps, and active alerts for operational visibility and troubleshooting.
+**Figure 4:** The monitoring framework automatically generates a system health report after each monitoring execution. When scheduled through Cron, the report can be generated at any desired interval, including daily, providing operational visibility and supporting troubleshooting.
+
 
 ---
 
@@ -132,11 +135,11 @@ linux-monitoring-framework/
 ├── reports/
 ├── screenshots/
 ├── scripts/
-├── config/
 ├── logs/
 ├── LICENSE
 ├── .gitignore
 └── README.md
+
 ```
 
 ---
@@ -161,10 +164,23 @@ linux-monitoring-framework/
 
 ### Prerequisites
 
-- Ubuntu 24.04+ (or WSL Ubuntu)
+- Ubuntu 24.04+ or WSL Ubuntu
 - Git
 - Bash
 - Nginx
+- Cron
+- `bc`
+- `procps`
+- `iputils-ping`
+
+Install the required packages:
+
+```bash
+sudo apt update
+sudo apt install -y git nginx cron bc procps iputils-ping
+```
+
+
 
 ### Clone Repository
 
@@ -178,11 +194,40 @@ cd linux-monitoring-framework
 ```bash
 chmod +x scripts/*.sh
 ```
-
 ### Run the Monitoring Framework
+
+Run the complete monitoring workflow manually:
 
 ```bash
 bash scripts/run_all_checks.sh
+```
+
+### Schedule Automatic Monitoring with Cron
+
+Open the current user's Cron configuration:
+
+```bash
+crontab -e
+```
+
+Add the following entry to execute the monitoring framework every five minutes:
+
+```cron
+*/5 * * * * /home/USER/linux-monitoring-framework/scripts/run_all_checks.sh
+```
+
+Replace `/home/USER/linux-monitoring-framework` with the absolute path of your project.
+
+Verify the Cron job:
+
+```bash
+crontab -l
+```
+
+Ensure the Cron service is running:
+
+```bash
+sudo systemctl enable --now cron
 ```
 
 
@@ -201,6 +246,7 @@ bash scripts/run_all_checks.sh
 bash scripts/generate_report.sh
 ```
 
+
 ### Open the Dashboard
 
 Start the Nginx service if it is not already running:
@@ -209,10 +255,11 @@ Start the Nginx service if it is not already running:
 sudo systemctl start nginx
 ```
 
-Copy the dashboard files to the Nginx web root:
+Remove the default Nginx web directory and create a symbolic link to the project dashboard:
 
 ```bash
-sudo cp -r dashboard/* /var/www/html/
+sudo rm -rf /var/www/html
+sudo ln -s "$(pwd)/dashboard" /var/www/html
 ```
 
 Open your browser:
@@ -220,6 +267,8 @@ Open your browser:
 ```text
 http://localhost
 ```
+
+Nginx now serves the dashboard directly from the project directory, so every update to `dashboard/status.txt` becomes immediately available in the browser.
 
 
 ---

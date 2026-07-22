@@ -1,4 +1,5 @@
-# Multi-Region Linux Monitoring & Automation Framework
+# Enterprise Linux Monitoring & Automation Framework
+
 
 This project is a Linux-based monitoring and automation framework built using Ubuntu, Bash scripting, Cron, Nginx, logs, alerts, reports, and a live dashboard.
 
