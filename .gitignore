@@ -1,3 +1,15 @@
-logs/*.log
+# Generated runtime data
+logs/*
+reports/*
 dashboard/status.txt
+
+# Keep required empty directories and documentation
+!logs/.gitkeep
+!reports/.gitkeep
+!reports/README.md
+
+# Temporary and operating-system files
+*.tmp
+.DS_Store
+Thumbs.db
 

@@ -14,7 +14,8 @@
 - 📊 HTML Monitoring Dashboard
 - 📄 Automated Report Generation
 - 📝 Centralized Logging
-- 🚨 Alert Monitoring
+- 🚨 Automated Alert Detection
+
 
 ---
 
@@ -38,8 +39,7 @@
 ## 📷 Nginx Service Status
 
 ![Nginx Status](screenshots/terminal/02-nginx-status.png)
-
-**Figure 2:** Nginx service running successfully on Ubuntu Linux. The monitoring framework continuously verifies that the Nginx web server is active and available.
+**Figure 2:** Nginx service running successfully on Ubuntu Linux. During each scheduled monitoring cycle, the framework automatically verifies that the Nginx web server is running and available before updating the dashboard, generating reports, and recording execution logs.
 
 ---
 ## 📷 Health Check Execution
@@ -203,22 +203,24 @@ bash scripts/generate_report.sh
 
 ### Open the Dashboard
 
+Start the Nginx service if it is not already running:
+
 ```bash
-cd dashboard
-python3 -m http.server 8080
+sudo systemctl start nginx
+```
+
+Copy the dashboard files to the Nginx web root:
+
+```bash
+sudo cp -r dashboard/* /var/www/html/
 ```
 
 Open your browser:
 
 ```text
-http://localhost:8080
+http://localhost
 ```
 
-### Monitor Nginx Service
-
-```bash
-systemctl status nginx
-```
 
 ---
 
@@ -239,7 +241,8 @@ The complete workflow is illustrated in the Architecture Diagram above.
 
 ## 🖥️ Live Dashboard
 
-The monitoring dashboard provides a real-time overview of server health through a lightweight HTML interface served by Nginx.
+The monitoring dashboard provides an up-to-date overview of server health through a lightweight HTML interface served by Nginx.
+
 
 It displays:
 
@@ -262,11 +265,14 @@ The monitoring framework automatically detects abnormal system conditions and re
 
 Current alert checks include:
 
+- High CPU utilization
+- High RAM utilization
+- High Disk utilization
 - Network connectivity failures
 - Nginx service availability
-- High resource utilization (future enhancement)
 
-Alerts are displayed on the dashboard and included in the generated health report for quick troubleshooting.
+Alerts are automatically displayed on the monitoring dashboard and included in the generated health report to support faster troubleshooting and operational visibility.
+
 
 ---
 ## 🌿 Git Version Control

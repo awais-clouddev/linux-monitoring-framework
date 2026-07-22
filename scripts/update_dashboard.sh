@@ -1,45 +1,42 @@
 #!/bin/bash
 
-CPU=$(top -bn1 | grep "Cpu(s)" | sed 's/,/ /g' | awk '{print 100 - $8}')
+set -Eeuo pipefail
 
-RAM=$(free | awk '/Mem:/ {printf("%.1f"), $3/$2 * 100}')
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+STATUS_FILE="$PROJECT_DIR/dashboard/status.txt"
+TEMP_FILE="$PROJECT_DIR/dashboard/.status.tmp"
 
-DISK=$(df -h / | awk 'NR==2 {print $5}')
+SERVICE_NAME="${SERVICE_NAME:-nginx}"
+NETWORK_TARGET="${NETWORK_TARGET:-google.com}"
 
-if ping -c 1 google.com > /dev/null
-then
-NETWORK="Healthy"
+CPU="$(top -bn1 | grep "Cpu(s)" | sed 's/,/ /g' | awk '{printf "%.1f", 100 - $8}')"
+RAM="$(free | awk '/Mem:/ {printf "%.1f", $3/$2 * 100}')"
+DISK="$(df -P / | awk 'NR==2 {gsub("%", "", $5); print $5}')"
+
+if ping -c 1 -W 2 "$NETWORK_TARGET" > /dev/null 2>&1; then
+    NETWORK="Healthy"
 else
-NETWORK="Down"
+    NETWORK="Warning"
 fi
 
-if systemctl is-active --quiet nginx
-then
-NGINX="Running"
+if systemctl is-active --quiet "$SERVICE_NAME"; then
+    SERVICE_STATUS="Running"
 else
-NGINX="Stopped"
+    SERVICE_STATUS="Warning"
 fi
 
-echo "CPU: $CPU%" > dashboard/status.txt
+{
+    echo "CPU: $CPU%"
+    echo "RAM: $RAM%"
+    echo "Disk: $DISK%"
+    echo "Network: $NETWORK"
+    echo "$SERVICE_NAME: $SERVICE_STATUS"
+    echo ""
+    echo "Alerts:"
+    "$PROJECT_DIR/scripts/alert_check.sh" | tail -n +2
+} > "$TEMP_FILE"
 
-echo "RAM: $RAM%" >> dashboard/status.txt
+mv "$TEMP_FILE" "$STATUS_FILE"
 
-echo "Disk: $DISK" >> dashboard/status.txt
-
-echo "Network: $NETWORK" >> dashboard/status.txt
-
-echo "Nginx: $NGINX" >> dashboard/status.txt
-echo "" >> dashboard/status.txt
-
-echo "Alerts:" >> dashboard/status.txt
-
-ALERTS=$(./scripts/alert_check.sh | tail -n +2)
-
-if [ -z "$ALERTS" ]
-then
-echo "No Active Alerts" >> dashboard/status.txt
-else
-echo "$ALERTS" >> dashboard/status.txt
-fi
-
+echo "Dashboard updated successfully: $STATUS_FILE"
 
