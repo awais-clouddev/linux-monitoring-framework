@@ -49,7 +49,9 @@
 **Figure 3:** The monitoring framework executes all health check scripts in a single run, validating CPU, RAM, Disk, Network, and Nginx service status before updating logs, reports, and the monitoring dashboard.
 
 ---
-## 📷 Daily Health Report
+
+### Daily Report
+
 
 
 
@@ -240,7 +242,8 @@ sudo systemctl enable --now cron
 bash scripts/run_all_checks.sh
 ```
 
-### Generate Daily Health Report
+### Generate Latest Health Report
+
 
 ```bash
 bash scripts/generate_report.sh
@@ -281,10 +284,11 @@ The monitoring framework follows this automated workflow:
 2. Bash scripts collect CPU, RAM, Disk, Network, and Nginx metrics.
 3. System metrics are validated and analyzed.
 4. Monitoring logs are generated and stored.
-5. Daily health reports are created automatically.
+5. A system health report is generated after each workflow execution.
 6. Dashboard data is updated.
 7. Nginx serves the latest dashboard.
 8. Users access the monitoring dashboard through a web browser.
+
 
 The complete workflow is illustrated in the Architecture Diagram above.
 
