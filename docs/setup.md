@@ -108,3 +108,12 @@ Execution log:
 tail -20 logs/system_health.log
 ```
 
+
+## WSL Without systemd
+
+If systemd is unavailable, start services using:
+
+```bash
+sudo service nginx start
+sudo service cron start
+
