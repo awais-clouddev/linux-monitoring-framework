@@ -400,6 +400,40 @@ Cloud & DevOps Engineer Portfolio
 
 ⭐ If you found this project useful, consider giving it a star.
 
+## Scope and Reliability
 
+This is an independent, single-host Linux monitoring portfolio project,
+tested locally on Ubuntu under WSL. It is not a multi-server monitoring
+service. Multi-server collection, external email/Slack notifications and
+historical metrics storage remain future work.
 
+- CPU, RAM and disk warnings and alerts trigger at or above their thresholds.
+- Thresholds accept numeric values from 0 through 100.
+- The main workflow uses a nonblocking lock to skip overlapping executions.
+- Dashboard and report updates use unique temporary files, cleanup on exit,
+  and atomic replacement within their destination directories.
+- Logs rotate before a workflow starts when the existing log reaches
+  5 MiB; five archives are retained by default. A single run can exceed
+  the size threshold before the next rotation.
+- Configure rotation using `LOG_MAX_BYTES` and `LOG_KEEP` (1–99 archives).
+- Dashboard alerts reuse the dashboard's CPU, RAM and disk samples.
+  Other standalone checks may collect separate samples.
+- CPU collection uses the C locale and the latest of two `top` samples.
 
+Run scheduled and manual full workflows through `scripts/run_all_checks.sh`
+to use its execution lock and log rotation. Direct execution of individual
+scripts does not acquire the workflow lock.
+
+### Verification Record
+
+Local controlled tests covered threshold boundaries, 54 threshold-validation
+cases, lock contention/release, concurrent dashboard/report updates,
+temporary-file cleanup after a failed dashboard update, log rotation/retention,
+and service checks with simulated systemd and non-systemd environments.
+
+CPU parser fixtures covered spacing, field order, latest-sample selection,
+boundary values and invalid output. A real CPU check also ran successfully
+on the author's WSL host.
+
+These checks do not establish multi-host operation, external notification
+delivery, or production availability. The full workflow passed on WSL, Nginx served status data matching the current dashboard file, and the report matched that file. Automatic Cron execution completed successfully at 17:05 on 15 October 2026. Browser rendering was not separately tested.

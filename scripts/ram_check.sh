@@ -4,8 +4,9 @@ set -Eeuo pipefail
 
 RAM_THRESHOLD="${RAM_THRESHOLD:-80}"
 
-if ! [[ "$RAM_THRESHOLD" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
-    echo "ERROR: RAM_THRESHOLD must be numeric. Received: $RAM_THRESHOLD" >&2
+if ! [[ "$RAM_THRESHOLD" =~ ^[0-9]+([.][0-9]+)?$ ]] ||
+   ! LC_ALL=C awk -v value="$RAM_THRESHOLD" 'BEGIN {exit !(value >= 0 && value <= 100)}'; then
+    echo "ERROR: RAM_THRESHOLD must be numeric and within 0–100. Received: $RAM_THRESHOLD" >&2
     exit 1
 fi
 

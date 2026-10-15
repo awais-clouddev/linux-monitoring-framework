@@ -4,8 +4,9 @@ set -Eeuo pipefail
 
 DISK_THRESHOLD="${DISK_THRESHOLD:-80}"
 
-if ! [[ "$DISK_THRESHOLD" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
-    echo "ERROR: DISK_THRESHOLD must be numeric. Received: $DISK_THRESHOLD" >&2
+if ! [[ "$DISK_THRESHOLD" =~ ^[0-9]+([.][0-9]+)?$ ]] ||
+   ! LC_ALL=C awk -v value="$DISK_THRESHOLD" 'BEGIN {exit !(value >= 0 && value <= 100)}'; then
+    echo "ERROR: DISK_THRESHOLD must be numeric and within 0–100. Received: $DISK_THRESHOLD" >&2
     exit 1
 fi
 
