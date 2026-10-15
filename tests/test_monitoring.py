@@ -113,5 +113,38 @@ class MonitoringTests(unittest.TestCase):
             self.assertEqual("CRITICAL: nginx Stopped" in status, failed)
 
 
+    def test_malformed_ram_fields_fail(self):
+        repo = self.bin / "ram-repo"
+        (repo / "scripts").mkdir(parents=True)
+        (repo / "dashboard").mkdir()
+        for name in ("alert_check.sh", "update_dashboard.sh"):
+            target = repo / "scripts" / name
+            target.write_text((ROOT / "scripts" / name).read_text())
+            target.chmod(0o755)
+
+        status = repo / "dashboard/status.txt"
+        for sample in (
+            "Mem: 100 invalid 0 0 0 0",
+            "Mem: invalid 20 0 0 0 0",
+            "Mem: 0 0 0 0 0 0",
+            "Mem: 100 101 0 0 0 0",
+            "Mem: 100 -1 0 0 0 0",
+            "Mem: 100",
+        ):
+            with self.subTest(sample=sample):
+                self.mock("free", f"echo '{sample}'")
+                for name in ("ram_check.sh", "alert_check.sh"):
+                    r = self.run_script(name)
+                    self.assertNotEqual(r.returncode, 0, r.stdout)
+                    self.assertIn("Invalid RAM", r.stderr)
+                status.write_text("previous status")
+                r = subprocess.run(
+                    ["bash", str(repo / "scripts/update_dashboard.sh")],
+                    env=self.env, capture_output=True, text=True, timeout=15
+                )
+                self.assertNotEqual(r.returncode, 0, r.stdout)
+                self.assertEqual(status.read_text(), "previous status")
+
+
 if __name__ == "__main__":
     unittest.main()

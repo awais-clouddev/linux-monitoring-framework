@@ -49,7 +49,23 @@ END {
         exit 1
     printf "%.1f", 100-idle
 }')}"
-RAM="${MONITOR_RAM:-$(free | awk '/Mem:/ {printf "%.1f", $3/$2 * 100}')}"
+RAM="${MONITOR_RAM:-$(free | awk '
+$1 == "Mem:" {
+    count++
+    if (NF < 3 || $2 !~ /^[0-9]+$/ || $3 !~ /^[0-9]+$/ ||
+        $2 <= 0 || $3 < 0 || $3 > $2) {
+        invalid=1
+    } else {
+        usage=$3/$2*100
+    }
+}
+END {
+    if (count != 1 || invalid) {
+        print "ERROR: Invalid RAM total/used fields" > "/dev/stderr"
+        exit 1
+    }
+    printf "%.1f", usage
+}')}"
 DISK="${MONITOR_DISK:-$(df -P / | awk 'NR==2 {gsub("%", "", $5); print $5}')}"
 
 # Reject malformed supplied snapshots before numeric comparisons.
