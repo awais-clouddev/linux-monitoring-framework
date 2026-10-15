@@ -101,18 +101,36 @@ Loading system status...
 </div>
 
 <script>
+async function loadStatus() {
+    const status = document.getElementById('status');
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
 
-fetch(`status.txt?t=${Date.now()}`, { cache: 'no-store' })
-
-
-.then(response => response.text())
-
-.then(data => {
-
-document.getElementById('status').textContent = data;
-
-});
-
+    try {
+        const response = await fetch(`status.txt?t=${Date.now()}`, {
+            cache: 'no-store',
+            signal: controller.signal
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        const data = await response.text();
+        if (!data.trim()) {
+            throw new Error('Empty status response');
+        }
+        status.textContent = data;
+    } catch (error) {
+        const reason = error.name === 'AbortError'
+            ? 'Request timed out'
+            : error.message;
+        status.textContent =
+            `Monitoring data unavailable: ${reason}. ` +
+            'Check Nginx and the monitoring workflow. Retrying on page refresh.';
+    } finally {
+        clearTimeout(timeout);
+    }
+}
+loadStatus();
 </script>
 
 </body>

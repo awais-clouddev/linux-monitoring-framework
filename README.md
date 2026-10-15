@@ -171,7 +171,7 @@ linux-monitoring-framework/
 - Bash
 - Nginx
 - Cron
-- `bc`
+- `awk`, `coreutils`, and `util-linux` (`flock`)
 - `procps`
 - `iputils-ping`
 
@@ -179,7 +179,7 @@ Install the required packages:
 
 ```bash
 sudo apt update
-sudo apt install -y git nginx cron bc procps iputils-ping
+sudo apt install -y git nginx cron gawk coreutils util-linux procps iputils-ping
 ```
 
 
@@ -229,7 +229,11 @@ crontab -l
 Ensure the Cron service is running:
 
 ```bash
-sudo systemctl enable --now cron
+if [ "$(ps -p 1 -o comm=)" = systemd ]; then
+    sudo systemctl enable --now cron
+else
+    sudo service cron start
+fi
 ```
 
 
@@ -255,14 +259,21 @@ bash scripts/generate_report.sh
 Start the Nginx service if it is not already running:
 
 ```bash
-sudo systemctl start nginx
+if [ "$(ps -p 1 -o comm=)" = systemd ]; then
+    sudo systemctl start nginx
+else
+    sudo service nginx start
+fi
 ```
 
-Remove the default Nginx web directory and create a symbolic link to the project dashboard:
+For a dedicated local lab, preserve the existing web directory and link the current dashboard:
 
 ```bash
-sudo rm -rf /var/www/html
-sudo ln -s "$(pwd)/dashboard" /var/www/html
+# Dedicated local lab: preserve any existing web-root directory.
+if [ -e /var/www/html ] && [ ! -L /var/www/html ]; then
+    sudo mv -- /var/www/html "/var/www/html.backup.$(date +%Y%m%d%H%M%S)"
+fi
+sudo ln -sfnT "$(pwd)/dashboard" /var/www/html
 ```
 
 Open your browser:
@@ -416,7 +427,7 @@ historical metrics storage remain future work.
   5 MiB; five archives are retained by default. A single run can exceed
   the size threshold before the next rotation.
 - Configure rotation using `LOG_MAX_BYTES` and `LOG_KEEP` (1–99 archives).
-- Dashboard alerts reuse the dashboard's CPU, RAM and disk samples.
+- Dashboard alerts reuse the dashboard's CPU, RAM, disk, network and service samples.
   Other standalone checks may collect separate samples.
 - CPU collection uses the C locale and the latest of two `top` samples.
 
@@ -437,3 +448,26 @@ on the author's WSL host.
 
 These checks do not establish multi-host operation, external notification
 delivery, or production availability. The full workflow passed on WSL, Nginx served status data matching the current dashboard file, and the report matched that file. Automatic Cron execution completed successfully at 17:05 on 15 October 2026. Browser rendering was not separately tested.
+
+## Regression Tests and Failure Handling
+
+See [test instructions](tests/README.md) for the reusable Python and
+JavaScript suites.
+
+Missing or invalid numeric metrics fail the affected check. Numeric
+comparisons no longer require bc. CPU parsing rejects a malformed latest
+sample rather than silently reusing an earlier sample.
+
+Dashboard alerts share numeric, network and service snapshots.
+The page reports failed, timed-out and empty requests explicitly.
+The page refreshes every 30 seconds; metric collection follows Cron.
+A successful request alone does not prove recent collection:
+check the displayed monitoring timestamp.
+
+The workflow waits for the logger and returns a nonzero exit code if
+logging fails. Reducing LOG_KEEP removes excess numbered archives on
+the next workflow execution.
+
+WSL must remain active for scheduled monitoring. Services may need
+restarting after WSL restarts without systemd. Screenshots are historical
+examples rather than proof of current uptime.

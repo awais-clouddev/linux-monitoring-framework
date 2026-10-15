@@ -34,6 +34,8 @@ echo "Time: $TIMESTAMP"
 
 CPU="${MONITOR_CPU:-$(top -bn2 -d 0.2 | awk '
 /Cpu\(s\)/ {
+    found=0
+    idle=""
     gsub(/,/, " ")
     for (i=2; i<=NF; i++) {
         if ($i == "id") {
@@ -55,33 +57,81 @@ for metric in CPU RAM DISK; do
     validate_threshold "MONITOR_$metric" "${!metric}"
 done
 
-ALERT_FOUND=false
-
-if (( $(echo "$CPU >= $CPU_THRESHOLD" | bc -l) )); then
-    echo "WARNING: High CPU Usage - $CPU%"
-    ALERT_FOUND=true
+if [[ ! -v MONITOR_NETWORK ]]; then
+    if ping -c 1 -W 2 "$NETWORK_TARGET" >/dev/null 2>&1; then
+        MONITOR_NETWORK=Healthy
+    else
+        MONITOR_NETWORK=Warning
+    fi
 fi
+case "$MONITOR_NETWORK" in
+    Healthy|Warning) ;;
+    *) echo "ERROR: Invalid network snapshot" >&2; exit 1 ;;
+esac
 
-if (( $(echo "$RAM >= $RAM_THRESHOLD" | bc -l) )); then
-    echo "WARNING: High RAM Usage - $RAM%"
-    ALERT_FOUND=true
-fi
-
-if (( $(echo "$DISK >= $DISK_THRESHOLD" | bc -l) )); then
-    echo "WARNING: High Disk Usage - $DISK%"
-    ALERT_FOUND=true
-fi
-
-if ! ping -c 1 -W 2 "$NETWORK_TARGET" > /dev/null 2>&1; then
-    echo "CRITICAL: Network Down"
-    ALERT_FOUND=true
-fi
-
-if ! { if [ "$(ps -p 1 -o comm=)" = "systemd" ]; then
+if [[ ! -v MONITOR_SERVICE ]]; then
+    if { if [ "$(ps -p 1 -o comm=)" = "systemd" ]; then
     systemctl is-active --quiet "$SERVICE_NAME"
 else
     service "$SERVICE_NAME" status >/dev/null 2>&1
 fi; }; then
+        MONITOR_SERVICE=Running
+    else
+        MONITOR_SERVICE=Warning
+    fi
+fi
+case "$MONITOR_SERVICE" in
+    Running|Warning) ;;
+    *) echo "ERROR: Invalid service snapshot" >&2; exit 1 ;;
+esac
+
+ALERT_FOUND=false
+
+COMPARISON="$(LC_ALL=C awk -v value="$CPU" -v threshold="$CPU_THRESHOLD" '
+BEGIN {
+    if (value !~ /^[0-9]+([.][0-9]+)?$/ || value < 0 || value > 100) {
+        print "ERROR: Missing or invalid metric: " value > "/dev/stderr"
+        exit 1
+    }
+    print (value >= threshold)
+}')"
+if (( COMPARISON )); then
+    echo "WARNING: High CPU Usage - $CPU%"
+    ALERT_FOUND=true
+fi
+
+COMPARISON="$(LC_ALL=C awk -v value="$RAM" -v threshold="$RAM_THRESHOLD" '
+BEGIN {
+    if (value !~ /^[0-9]+([.][0-9]+)?$/ || value < 0 || value > 100) {
+        print "ERROR: Missing or invalid metric: " value > "/dev/stderr"
+        exit 1
+    }
+    print (value >= threshold)
+}')"
+if (( COMPARISON )); then
+    echo "WARNING: High RAM Usage - $RAM%"
+    ALERT_FOUND=true
+fi
+
+COMPARISON="$(LC_ALL=C awk -v value="$DISK" -v threshold="$DISK_THRESHOLD" '
+BEGIN {
+    if (value !~ /^[0-9]+([.][0-9]+)?$/ || value < 0 || value > 100) {
+        print "ERROR: Missing or invalid metric: " value > "/dev/stderr"
+        exit 1
+    }
+    print (value >= threshold)
+}')"
+if (( COMPARISON )); then
+    echo "WARNING: High Disk Usage - $DISK%"
+    ALERT_FOUND=true
+fi
+
+if [[ "$MONITOR_NETWORK" == Warning ]]; then
+    echo "CRITICAL: Network Down"
+    ALERT_FOUND=true
+fi
+
+if [[ "$MONITOR_SERVICE" == Warning ]]; then
     echo "CRITICAL: $SERVICE_NAME Stopped"
     ALERT_FOUND=true
 fi

@@ -33,6 +33,17 @@ if ! [[ "$LOG_MAX_BYTES" =~ ^[1-9][0-9]{0,9}$ ]] ||
     exit 1
 fi
 
+
+# Enforce retention even after LOG_KEEP is reduced.
+for archive in "$LOG_FILE".*; do
+    suffix="${archive##*.}"
+    if [[ -f "$archive" && "$suffix" =~ ^[1-9][0-9]*$ ]]; then
+        if (( ${#suffix} > 2 )) || (( 10#$suffix > LOG_KEEP )); then
+            rm -f -- "$archive"
+        fi
+    fi
+done
+
 if [[ -f "$LOG_FILE" ]] &&
    (( $(stat -c %s "$LOG_FILE") >= LOG_MAX_BYTES )); then
     rm -f -- "$LOG_FILE.$LOG_KEEP"
@@ -44,7 +55,21 @@ if [[ -f "$LOG_FILE" ]] &&
     mv -- "$LOG_FILE" "$LOG_FILE.1"
 fi
 
+exec 3>&1 4>&2
 exec > >(tee -a "$LOG_FILE") 2>&1
+LOGGER_PID=$!
+
+finish_logging() {
+    local result=$?
+    trap - EXIT
+    exec 1>&3 2>&4 3>&- 4>&-
+    if ! wait "$LOGGER_PID"; then
+        echo "ERROR: Monitoring log could not be written completely." >&2
+        result=1
+    fi
+    exit "$result"
+}
+trap finish_logging EXIT
 
 trap 'echo "ERROR: Monitoring workflow failed at line $LINENO."' ERR
 

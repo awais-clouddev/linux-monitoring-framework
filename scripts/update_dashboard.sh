@@ -12,6 +12,8 @@ NETWORK_TARGET="${NETWORK_TARGET:-google.com}"
 
 CPU="$(top -bn2 -d 0.2 | awk '
 /Cpu\(s\)/ {
+    found=0
+    idle=""
     gsub(/,/, " ")
     for (i=2; i<=NF; i++) {
         if ($i == "id") {
@@ -57,7 +59,7 @@ trap 'exit 143' TERM
     echo "$SERVICE_NAME: $SERVICE_STATUS"
     echo ""
     echo "Alerts:"
-    MONITOR_CPU="$CPU" MONITOR_RAM="$RAM" MONITOR_DISK="$DISK" "$PROJECT_DIR/scripts/alert_check.sh" | tail -n +2
+    MONITOR_CPU="$CPU" MONITOR_RAM="$RAM" MONITOR_DISK="$DISK" MONITOR_NETWORK="$NETWORK" MONITOR_SERVICE="$SERVICE_STATUS" "$PROJECT_DIR/scripts/alert_check.sh" | tail -n +2
 } > "$TEMP_FILE"
 
 chmod 644 "$TEMP_FILE"

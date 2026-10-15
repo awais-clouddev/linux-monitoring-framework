@@ -9,7 +9,7 @@ This project requires:
 - Bash
 - Nginx
 - Cron
-- `bc`
+- `awk`, `coreutils`, and `util-linux` (`flock`)
 - `procps`
 - `iputils-ping`
 
@@ -17,7 +17,7 @@ Install the required packages:
 
 ```bash
 sudo apt update
-sudo apt install -y git nginx cron bc procps iputils-ping
+sudo apt install -y git nginx cron gawk coreutils util-linux procps iputils-ping
 ```
 
 ## Clone the Repository
@@ -44,14 +44,21 @@ bash scripts/run_all_checks.sh
 Start and enable Nginx:
 
 ```bash
-sudo systemctl enable --now nginx
+if [ "$(ps -p 1 -o comm=)" = systemd ]; then
+    sudo systemctl enable --now nginx
+else
+    sudo service nginx start
+fi
 ```
 
-Remove the default Nginx web directory and create a symbolic link to the project dashboard:
+For a dedicated local lab, preserve the existing web directory and link the current dashboard:
 
 ```bash
-sudo rm -rf /var/www/html
-sudo ln -s "$(pwd)/dashboard" /var/www/html
+# Dedicated local lab: preserve any existing web-root directory.
+if [ -e /var/www/html ] && [ ! -L /var/www/html ]; then
+    sudo mv -- /var/www/html "/var/www/html.backup.$(date +%Y%m%d%H%M%S)"
+fi
+sudo ln -sfnT "$(pwd)/dashboard" /var/www/html
 ```
 
 Open the dashboard:
@@ -85,7 +92,11 @@ crontab -l
 Ensure Cron is running:
 
 ```bash
-sudo systemctl enable --now cron
+if [ "$(ps -p 1 -o comm=)" = systemd ]; then
+    sudo systemctl enable --now cron
+else
+    sudo service cron start
+fi
 ```
 
 ## Verify the Generated Files
@@ -116,4 +127,4 @@ If systemd is unavailable, start services using:
 ```bash
 sudo service nginx start
 sudo service cron start
-
+```

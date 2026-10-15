@@ -40,12 +40,12 @@ Then refresh the browser.
 
 ---
 
-### Missing `bc` Package
+### Missing Runtime Commands
 
-If you receive a `bc: command not found` error, install the required package:
+Numeric comparisons use awk; bc is no longer required.
 
 ```bash
-sudo apt install -y bc
+sudo apt install -y gawk coreutils util-linux procps iputils-ping
 ```
 
 ---
@@ -93,3 +93,12 @@ ls -l logs/
 ls -l reports/
 ```
 
+
+## WSL Service Startup
+
+Without systemd, use sudo service nginx start and sudo service cron start.
+WSL must remain active for scheduled jobs. Services may need restarting after WSL restarts.
+
+## Stale Dashboard Data
+
+Use readlink -f /var/www/html to confirm the link points to the current clone's dashboard directory. Compare http://localhost/status.txt with dashboard/status.txt. HTTP data checks do not verify browser layout.

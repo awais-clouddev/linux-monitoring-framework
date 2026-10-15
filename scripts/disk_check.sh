@@ -2,6 +2,8 @@
 
 set -Eeuo pipefail
 
+export LC_ALL=C
+
 DISK_THRESHOLD="${DISK_THRESHOLD:-80}"
 
 if ! [[ "$DISK_THRESHOLD" =~ ^[0-9]+([.][0-9]+)?$ ]] ||
@@ -16,7 +18,15 @@ DISK_USAGE="$(df -P / | awk 'NR==2 {gsub("%", "", $5); print $5}')"
 
 echo "Disk Usage: $DISK_USAGE%"
 
-if (( $(echo "$DISK_USAGE < $DISK_THRESHOLD" | bc -l) )); then
+COMPARISON="$(LC_ALL=C awk -v value="$DISK_USAGE" -v threshold="$DISK_THRESHOLD" '
+BEGIN {
+    if (value !~ /^[0-9]+([.][0-9]+)?$/ || value < 0 || value > 100) {
+        print "ERROR: Missing or invalid metric: " value > "/dev/stderr"
+        exit 1
+    }
+    print (value < threshold)
+}')"
+if (( COMPARISON )); then
     echo "Status: Healthy ✅"
 else
     echo "Status: Warning ⚠️"

@@ -16,6 +16,8 @@ echo "===== CPU MONITOR ====="
 
 CPU_USAGE="$(top -bn2 -d 0.2 | awk '
 /Cpu\(s\)/ {
+    found=0
+    idle=""
     gsub(/,/, " ")
     for (i=2; i<=NF; i++) {
         if ($i == "id") {
@@ -32,7 +34,15 @@ END {
 
 echo "CPU Usage: $CPU_USAGE%"
 
-if (( $(echo "$CPU_USAGE < $CPU_THRESHOLD" | bc -l) )); then
+COMPARISON="$(LC_ALL=C awk -v value="$CPU_USAGE" -v threshold="$CPU_THRESHOLD" '
+BEGIN {
+    if (value !~ /^[0-9]+([.][0-9]+)?$/ || value < 0 || value > 100) {
+        print "ERROR: Missing or invalid metric: " value > "/dev/stderr"
+        exit 1
+    }
+    print (value < threshold)
+}')"
+if (( COMPARISON )); then
     echo "Status: Healthy ✅"
 else
     echo "Status: Warning ⚠️"
